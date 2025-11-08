@@ -1,0 +1,46 @@
+# Ignore node modules installed on the host
+node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+logs/
+
+# Environment files (may contain secrets)
+.env
+.env.*
+.env.docker
+
+# Git and CI
+.git
+.gitignore
+.github
+
+# IDE/editor directories and files
+.vscode/
+.idea/
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build/test outputs
+dist/
+build/
+coverage/
+tmp/
+.cache/
+
+# Docker-related local overrides
+docker-compose.override.yml
+Dockerfile.dev
+
+# Misc
+*.tgz
+*.zip
+
