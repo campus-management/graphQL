@@ -1,5 +1,7 @@
 require('dotenv').config();
-const {ApolloServer, gql} = require('apollo-server');
+const {ApolloServer, gql} = require('apollo-server-express');
+const express = require('express');
+const http = require('http');
 
 // Base URLs from environment variables
 const STUDENT_BASE = process.env.STUDENT_BASE;
@@ -252,7 +254,22 @@ const resolvers = {
 };
 
 // Start server
-const server = new ApolloServer({typeDefs, resolvers});
-server.listen({port: PORT}).then(({url}) => {
-    console.log(`GraphQL Gateway running at ${url}`);
-});
+async function startServer() {
+    const app = express();
+    const httpServer = http.createServer(app);
+
+    // Health endpoint - returns 200 OK
+    app.get('/health', (req, res) => {
+        res.status(200).send('OK');
+    });
+
+    const server = new ApolloServer({typeDefs, resolvers});
+    await server.start();
+    server.applyMiddleware({app});
+
+    httpServer.listen({port: PORT}, () => {
+        console.log(`GraphQL Gateway running`);
+    });
+}
+
+startServer();
